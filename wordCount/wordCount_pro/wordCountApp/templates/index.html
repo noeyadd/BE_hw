@@ -7,8 +7,13 @@
   </head>
   <body>
     <h1>자기소개</h1>
-    <p>안녕하세요 제 이름은 장다연이고 나이는 23살입니다!</p>
-    <p>제가 좋아하는 음식은 초콜릿입니다</p>
+    <h3>자기소개를 해보세요 ~ ^^</h3>
+
+    <form action="{% url 'hello' %}">
+      <textarea name="myname" cols="30" rows="1"></textarea>
+
+      <input type="submit" value="확인" />
+    </form>
 
     <a href="{% url 'wordCount' %}">wordCount 페이지로 가기!</a>
   </body>

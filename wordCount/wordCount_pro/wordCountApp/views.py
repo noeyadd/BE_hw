@@ -11,6 +11,7 @@ def wordCount(request):
 def result(request):
     entered_text = request.GET['fulltext']
     word_list = entered_text.split()
+    count_no_split = len(entered_text) - len(word_list) + 1
 
     word_dictionary = {}
 
@@ -20,4 +21,9 @@ def result(request):
         else :
             word_dictionary[word] = 1
 
-    return render(request, "result.html", {'alltext': entered_text, 'dictionary': word_dictionary.items(), 'count': len(word_list)})
+    return render(request, "result.html", {'alltext': entered_text, 'dictionary': word_dictionary.items(), 'count': len(word_list), 'count_no_split' : count_no_split})
+
+def hello(request):
+    entered_text = request.GET['myname']
+    
+    return render(request, "hello.html", {'introduce' : entered_text})
