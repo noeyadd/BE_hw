@@ -9,9 +9,10 @@ def list(request):
 def search(request):
     data = request.GET['searchtext']
 
-    # 쿼리셋 사용
+    # 쿼리셋 사용 (contains)
     phones = Phone.objects.filter(name__contains = data)
 
+    # 쿼리셋 사용 (exists)
     if (phones.exists() == False):
         data = "이름없음"
     
