@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>연락처 목록</title>
+  </head>
+  <body>
+    <form action="{% url 'search' %}">
+      <textarea name="searchtext" cols="40" rows="1"></textarea>
+      <input type="submit" value="검색" />
+      <br />
+    </form>
+
+    {% for phone in phones %}
+    <h1>이름 : {{ phone.name }}</h1>
+    <p>전화번호 : {{ phone.phone_num }}</p>
+
+    {% empty %} 작성된 글이 없습니다 {% endfor %}
+  </body>
+</html>
