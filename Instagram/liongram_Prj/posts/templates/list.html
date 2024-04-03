@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram</title>
+  </head>
+  <body>
+    <h1>덕멋 인스타그램</h1>
+
+    <form action="{% url 'search' %}">
+      <textarea name="searchtext" cols="40" rows="1"></textarea>
+      <input type="submit" value="검색" />
+    </form>
+
+    {% for post in posts %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p>조회수 : {{ post.views }}</p>
+    <p>{{ post.created_at }}</p>
+    <hr />
+    {% endfor %}
+  </body>
+</html>
