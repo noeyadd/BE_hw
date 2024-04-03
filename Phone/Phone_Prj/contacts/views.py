@@ -11,9 +11,5 @@ def search(request):
 
     # 쿼리셋 사용 (contains)
     phones = Phone.objects.filter(name__contains = data)
-
-    # 쿼리셋 사용 (exists)
-    if (phones.exists() == False):
-        data = "이름없음"
     
     return render(request, 'search.html', {'phones':phones, 'data':data})
