@@ -6,8 +6,12 @@
     <title>Document</title>
   </head>
   <body>
+    <a href="{% url 'create' %}">글 작성하기</a>
+    <hr />
+
     {% for post in posts %}
-    <h2>{{ post.title }}</h2>
+    <!-- 제목을 누르면 detail.html로 가도록 -->
+    <h2><a href="{% url 'detail' post.id %}">{{ post.title }}</a></h2>
     <p>{{ post.content }}</p>
     <p>{{ post.created_at }}</p>
 
