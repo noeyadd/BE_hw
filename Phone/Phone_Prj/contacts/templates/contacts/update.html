@@ -13,10 +13,8 @@
         value="{{ phone.name }}"
         name="name"
       /><br /><br />
-      번호 : <br /><textarea name="phone_num">{{ phone.phone_num }}</textarea
-      ><br /><br />
-      이메일 : <br /><textarea name="email">{{ phone.email }}</textarea
-      ><br /><br />
+      번호 : <br /><textarea name="phone_num">{{ phone.phone_num }}</textarea><br /><br />
+      이메일 : <br /><input type="email" value = "{{ phone.email }}" name="email" /><br /><br />
       <input type="submit" value="수정" />
     </form>
   </body>
