@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>연락처 실습 메인 페이지</title>
+  </head>
+  <body>
+    <h2>연락처 실습 메인 페이지</h2>
+    <form action="{% url 'search' %}">
+      <textarea name="searchtext" cols="40" rows="1"></textarea>
+      <input type="submit" value="검색" />
+      <br />
+    </form>
+    <hr />
+
+    {% for phone in phones %}
+    <p>
+      <a href="{% url 'detail' phone.id %}"
+        >{{ phone.name }} - {{ phone.phone_num }}</a
+      >
+      <a href="{% url 'update' phone.id %}">수정</a>
+      <a href="{% url 'delete' phone.id %}">삭제</a>
+    </p>
+
+    {% empty %} 저장된 연락처가 없습니다. {% endfor %}
+    <br />
+    <a href="{% url 'create' %}">새 번호 추가</a>
+  </body>
+</html>
