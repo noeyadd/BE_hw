@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import list, create, detail, update, delete
 
+app_name = 'blog'   # 네임스페이스 도입
 urlpatterns = [
     path('', list, name = "list"),
     path('create/', create, name = "create"),

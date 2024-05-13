@@ -12,8 +12,8 @@
     <hr />
     <br />
 
-    <a href="{% url 'update' post.id %}">수정하기</a>
+    <a href="{% url 'blog:update' post.id %}">수정하기</a>
     <br />
-    <a href="{% url 'delete' post.id %}">삭제하기</a>
+    <a href="{% url 'blog:delete' post.id %}">삭제하기</a>
   </body>
 </html>

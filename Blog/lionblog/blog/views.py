@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 def list(request):
     posts = Post.objects.all().order_by('-id') # Post 객체를 내림차순으로 모두 불러온 후 posts 변수에 담음
     return render(request, 'blog/blog.html', {'posts' : posts})
 
 #CRUD - Create
+@login_required # 로그아웃 상태로 글 작성 버튼을 누르면 로그인 페이지로 연결됨
 def create(request):
     if request.method == "POST":
         title = request.POST.get('title')
@@ -17,7 +19,7 @@ def create(request):
             content = content,
         )
 
-        return redirect('list')                 # id 정도만 같이 보낼 수 있음 ('list', id)
+        return redirect('blog:list')                 # id 정도만 같이 보낼 수 있음 ('list', id)
     return render(request, 'blog/create.html')
 
 # CRUD - Read
@@ -32,11 +34,11 @@ def update(request, id):
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.save()                             # update에서는 save() 필수
-        return redirect('detail', id)           # 수정 후에는 detail.html로 redirect 된다
+        return redirect('blog:detail', id)           # 수정 후에는 detail.html로 redirect 된다
     return render(request, 'blog/update.html', {'post' : post})
 
 # CRUD - Delete
 def delete(request, id):
     post = get_object_or_404(Post, id = id)
     post.delete()
-    return redirect('list')
+    return redirect('blog:list')
