@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 로그인 & 회원가입 -->
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    {% else %}
+    <a href="{% url 'accounts:signup' %}">회원가입</a>
+      <a href="{% url 'accounts:login' %}">로그인</a>
+    {% endif %}
+    <hr />
+
+    <!-- 글 작성 -->
+    <form method="POST" action="{% url 'post:create' %}">
+      {% csrf_token %} 제목 - <input type="text" name="title" /><br /><br />
+      내용 - <textarea name="content"></textarea>
+      <input type="checkbox" name="anonymity">익명<br /><br />
+      <input type="submit" value="작성 완료" />
+    </form>
+    <hr />
+
+    {% for post in posts %}
+    <!-- 제목을 누르면 detail.html로 가도록 -->
+    {% if post.anonymity %}
+      <h2><a href="{% url 'post:detail' post.id %}">익명 글입니다</a></h2>
+      <p>익명 내용입니다</p>
+      {% load humanize %}
+      <p>{{ post.created_at|naturalday }}</p>
+
+    {% else %}
+      <h2><a href="{% url 'post:detail' post.id %}">{{ post.title }}</a></h2>
+      <p>{{ post.content }}</p>
+      {% load humanize %}
+      <p>{{ post.created_at|naturalday }}</p>
+    {% endif %}
+
+
+    <!-- 작성된 글이 없을 때 -->
+    {% empty %} <h2>글이 없습니다.</h2> {% endfor %}
+  </body>
+</html>
