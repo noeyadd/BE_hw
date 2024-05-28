@@ -23,7 +23,28 @@
       <br />
     {% endif %}
 
+    <!-- 작성자에게만 보이게 수정 -->
+    {% if user == post.author %}
+    <a href="{% url 'post:update' post.id %}">수정하기</a>
+    <a href="{% url 'post:delete' post.id %}">삭제하기</a>
+    {% endif %}
+
+    <p>공감 {{ post.like.count }}개</p>
+    <p>스크랩 개</p><br>
+
+    <!-- 좋아요 버튼 -->
+    {% if request.user in post.like.all %}
+      <a href="{% url 'post:remove-like' post.id %}"><input type="button" value="공감취소"></a>
+      <hr>
+    {% else %}
+      <a href="{% url 'post:add-like' post.id %}"><input type="button" value="공감"></a>
+      <hr>
+    {% endif %}
+
+    <!-- 스크랩 버튼 -->
+
     <!-- 댓글 -->
+    <b>댓글</b><br><br>
     {% for comment in post.comments.all %}
         {{ comment.content }} -
 
@@ -36,7 +57,7 @@
         {{ comment.created_at }}<br>
 
       {% if user == comment.author %}  
-        <a href="{% url 'post:delete' comment.id %}">삭제하기</a>
+        <a href="{% url 'post:delete-comment' comment.id %}">삭제하기</a>
         <br><br>
       {% endif %}  
 
@@ -51,13 +72,6 @@
       댓글 - <input type="text" name="content"><input type="submit" value="작성">
       <input type="checkbox" name="anonymity">익명
     </form>
-    <hr>
-
-
-    <!-- 작성자에게만 보이게 수정 -->
-    {% if user == post.author %}
-    <a href="{% url 'post:update' post.id %}">수정하기</a>
-    <a href="{% url 'post:delete' post.id %}">삭제하기</a>
-    {% endif %}
+    
   </body>
 </html>

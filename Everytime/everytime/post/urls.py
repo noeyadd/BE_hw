@@ -8,6 +8,9 @@ urlpatterns = [
     path('create/', create, name = "create"),
     path('detail/<int:id>/', detail, name = "detail"),
     path('update/<int:id>/', update, name = "update"),
-    path('delete/<int:id>/', delete, name = "delete"), 
-    path('create-comment/<int:post_id>', create_comment, name = "create-comment")
+    path('delete/<int:id>/', delete, name = "delete"),
+    path('create-comment/<int:post_id>/', create_comment, name = "create-comment"),
+    path('delete-comment/<int:post_id>/', delete_comment, name = "delete-comment"),
+    path('add-like/<int:post_id>/', add_like, name = "add-like"),
+    path('remove-like/<int:post_id>/', remove_like, name = "remove-like"),
 ]

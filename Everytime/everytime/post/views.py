@@ -8,7 +8,7 @@ def list(request):
 
 #CRUD - Create
 @login_required # 로그아웃 상태로 글 작성 버튼을 누르면 로그인 페이지로 연결됨
-def create(request, slug):
+def create(request):
     categories = Category.objects.all()
 
     if request.method == "POST":
@@ -68,3 +68,22 @@ def create_comment(request, post_id):
             anonymity = 'anonymity' in request.POST
         )
         return redirect('post:detail', post_id)
+    
+# 댓글 삭제
+def delete_comment(request, post_id):
+    comment = get_object_or_404(Comment, id = post_id)
+    post_id = comment.post.id  # 댓글이 달린 포스트의 ID를 저장
+    comment.delete()
+    return redirect('post:detail', post_id)
+    
+# 좋아요 누르기
+def add_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.like.add(request.user)
+    return redirect('post:detail', post_id)
+
+# 좋아요 취소
+def remove_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.like.remove(request.user)
+    return redirect('post:detail', post_id)

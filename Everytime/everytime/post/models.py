@@ -17,11 +17,16 @@ class Post(models.Model):
     anonymity = models.BooleanField(default=True)
     author = models.ForeignKey(to = User, on_delete = models.CASCADE, related_name = "posts")
     category = models.ManyToManyField(to = Category, through="PostCategory", related_name="posts")
+    like = models.ManyToManyField(to = User, through="Like", related_name="liked_posts")
 
     # 제목을 title로 변경하기
     def __str__(self):
         return f'[{self.title}] {self.title}'
     
+class Like(models.Model):
+    post = models.ForeignKey(to = Post, on_delete = models.CASCADE, related_name="post_likes")
+    user = models.ForeignKey(to = User, on_delete = models.CASCADE, related_name="user_likes")
+
 # 중간테이블
 class PostCategory(models.Model):
     category = models.ForeignKey(to = Category, on_delete=models.CASCADE, related_name="categories_postcategory")
