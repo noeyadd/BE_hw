@@ -9,11 +9,47 @@
     <h2>제목 - {{ post.title }}</h2>
     <p>내용 - {{ post.content }}</p>
     <p>작성일 - {{ post.created_at }}</p>
+    <p>작성자 - {{ post.author.nickname }}</p>
+
+    <p>좋아요 - {{ post.like.count }}</p>
+      {% if request.user in post.like.all %}
+        <a href="{% url 'blog:remove-like' post.id %}">좋아요 취소</a>
+      {% else %}
+        <a href="{% url 'blog:add-like' post.id %}">좋아요</a>
+      {% endif %}
+
+    <p>카테고리 -
+      {% for category in post.category.all %}
+          [{{ category.name }}]
+      {% empty %}
+          설정한 카테고리 없음
+      {% endfor %}
+    </p>
+
     <hr />
     <br />
 
+    <p>댓글 수 : {{ post.comments.count }}</p>
+    {% for comment in post.comments.all %}
+        작성자 - {{ comment.author.nickname }}<br>
+        <b>{{ comment.content }}</b><br>
+        작성일 - {{ comment.created_at }}<br><br>
+    {% empty %}
+        댓글이 없습니다.
+        <br>
+    {% endfor %}
+    <br><hr><br>
+
+    <form method="POST" action="{% url 'blog:create-comment' post.id %}">
+      {% csrf_token %}
+      댓글 - <input type="text" name="content"><input type="submit" value="작성">
+    </form>
+    <br><hr><br>
+
+    {% if request.user == post.author %}
     <a href="{% url 'blog:update' post.id %}">수정하기</a>
     <br />
     <a href="{% url 'blog:delete' post.id %}">삭제하기</a>
+    {% endif %}
   </body>
 </html>
