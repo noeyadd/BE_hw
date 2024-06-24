@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
+from post.models import *
 
 # 회원가입 - Form 활용
 def signup_view(request):
@@ -44,3 +45,10 @@ def mypage(request):
 def mypost(request):
     posts = request.user.posts.all().order_by('-id')
     return render(request, 'accounts/mypost.html', {'posts' : posts})
+
+def myscrap(request):
+    #posts = request.user.posts.all().order_by('-id')
+    #scrap_posts = posts.post_scrap.all().order_by('-id')
+    # scrap_posts = request.user.user_scrap.all()
+    scrap_posts = Post.objects.filter(scrap = request.user).order_by('-id')
+    return render(request, 'accounts/myscrap.html', {'scrap_posts' : scrap_posts })

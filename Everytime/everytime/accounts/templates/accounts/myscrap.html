@@ -11,7 +11,7 @@
         <p>{{ post.content }}</p>
         {% load humanize %}
         <p>{{ post.created_at|naturalday }}</p>
-        <p>댓글 {{ post.comments.count }}개 공감 {{ post.like.count }}개</p>
+        <p>댓글 {{ post.comments.count }}개 공감 {{ post.scrap.count }}개</p>
         <hr>
     {% empty %}
         글이 없습니다.

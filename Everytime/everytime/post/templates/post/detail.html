@@ -30,7 +30,7 @@
     {% endif %}
 
     <p>공감 {{ post.like.count }}개</p>
-    <p>스크랩 개</p><br>
+    <p>스크랩 {{ post.scrap.count }}개</p><br>
 
     <!-- 좋아요 버튼 -->
     {% if request.user in post.like.all %}
@@ -42,6 +42,13 @@
     {% endif %}
 
     <!-- 스크랩 버튼 -->
+    {% if request.user in post.scrap.all %}
+      <a href="{% url 'post:remove-scrap' post.id %}"><input type="button" value="스크랩취소"></a>
+      <hr>
+    {% else %}
+      <a href="{% url 'post:add-scrap' post.id %}"><input type="button" value="스크랩"></a>
+      <hr>
+    {% endif %}
 
     <!-- 댓글 -->
     <b>댓글</b><br><br>
@@ -53,8 +60,8 @@
       {% else %}
         {{ comment.author.nickname }} -
       {% endif %}
-
-        {{ comment.created_at }}<br>
+      {% load humanize %}
+          {{ comment.created_at|naturalday }}<br>
 
       {% if user == comment.author %}  
         <a href="{% url 'post:delete-comment' comment.id %}">삭제하기</a>

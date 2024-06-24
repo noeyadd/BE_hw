@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  </head>
-  <body>
+</head>
+<body>
+    <a href="{% url 'post:list' %}">메인페이지로 돌아가기</a>
+    <hr>
 
     {% for category in categories %}
-      <a href="{% url 'post:category' category.slug %}">{{ category.title }}</a>
+      <a href="{% url 'post:category' category.slug %}"></a>
+      <br>
     {% endfor %}
-    <br>
 
-    <p>nickname - <b>{{ request.user.nickname }}</b></p>
+    <h2>{{ category.title }}</h2>
 
     <!-- 로그인 & 회원가입 -->
     {% if request.user.is_authenticated %}
@@ -26,26 +28,36 @@
 
     <!-- 내가 작성한 글 & 스크랩 -->
     <a href="{% url 'accounts:my-post' %}">내가 작성한 글</a>
-    <a href="{% url 'accounts:my-scrap' %}">내가 스크랩한 글</a>
+    <a href="#">내가 스크랩한 글</a>
     <br><br><br>
+
+    <!-- 글 작성 -->
+    <form action="{% url 'post:create' category.slug %}" method="post">
+      {% csrf_token %} 
+      제목 - <input type="text" name="title" /><br /><br />
+      내용 - <textarea name="content"></textarea>
+      <input type="checkbox" name="anonymity">익명<br /><br />
+      <input type="submit" value="작성 완료" />
+    </form>
+    <hr />
 
     {% for post in posts %}
     <!-- 제목을 누르면 detail.html로 가도록 -->
     {% if post.anonymity %}
       <h2><a href="{% url 'post:detail' post.id %}">익명 글입니다</a></h2>
       <p>익명 내용입니다</p>
-      <p>{{ post.created_at|timesince }} 전</p>
-      <p>공감 {{ post.like.count }}개 스크랩 {{ post.scrap.count }}개</p>
+      {% load humanize %}
+      <p>{{ post.created_at|naturalday }}</p>
 
     {% else %}
       <h2><a href="{% url 'post:detail' post.id %}">{{ post.title }}</a></h2>
       <p>{{ post.content }}</p>
-      <p>{{ post.created_at|timesince }} 전</p>
-      <p>공감 {{ post.like.count }}개 스크랩 {{ post.scrap.count }}개</p>
+      {% load humanize %}
+      <p>{{ post.created_at|naturalday }}</p>
     {% endif %}
 
 
     <!-- 작성된 글이 없을 때 -->
     {% empty %} <h2>글이 없습니다.</h2> {% endfor %}
-  </body>
+</body>
 </html>
