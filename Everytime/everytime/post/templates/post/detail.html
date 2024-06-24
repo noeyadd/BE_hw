@@ -21,6 +21,14 @@
       <br>
       <p>{{ post.author.nickname }}</p>
       <br />
+      {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+      {% endif %}
+      {% if post.video %}
+        <video width="320" height="240" controls>
+          <source src="{{ post.video.url }}" type="video/mp4">
+        </video><br />
+      {% endif %}
     {% endif %}
 
     <!-- 작성자에게만 보이게 수정 -->

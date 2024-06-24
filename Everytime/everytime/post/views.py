@@ -19,6 +19,9 @@ def create(request, slug):
         content = request.POST.get('content')
         anonymity = 'anonymity' in request.POST     # True, False 체크하기
 
+        video = request.FILES.get('video')
+        image = request.FILES.get('image')
+
         category_ids = request.POST.getlist('category')
         category_list = [get_object_or_404(Category, id = category_id) for category_id in category_ids]
 
@@ -28,6 +31,8 @@ def create(request, slug):
             content = content,
             anonymity = anonymity,
             author = request.user,
+            image = image,
+            video = video,
         )
 
         post.category.add(category)
@@ -57,6 +62,16 @@ def update(request, id):
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.anonymity = 'anonymity' in request.POST
+        video = request.FILES.get('video')
+        image = request.FILES.get('image')
+
+        if video:
+            post.video.delete()
+            post.video = video
+        if image:
+            post.image.delete()
+            post.image = image
+
         post.save()                             # update에서는 save() 필수
         return redirect('post:detail', id)           # 수정 후에는 detail.html로 redirect 된다
     return render(request, 'post/update.html', {'post' : post})

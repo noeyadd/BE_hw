@@ -32,11 +32,14 @@
     <br><br><br>
 
     <!-- 글 작성 -->
-    <form action="{% url 'post:create' category.slug %}" method="post">
+    <form action="{% url 'post:create' category.slug %}" method="post" enctype="multipart/form-data">
       {% csrf_token %} 
       제목 - <input type="text" name="title" /><br /><br />
       내용 - <textarea name="content"></textarea>
       <input type="checkbox" name="anonymity">익명<br /><br />
+      동영상 - <input type="file" name = "video"><br /><br />
+      이미지 - <input type="file" name = "image"><br /><br />
+      
       <input type="submit" value="작성 완료" />
     </form>
     <hr />
