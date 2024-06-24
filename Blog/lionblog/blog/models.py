@@ -1,5 +1,13 @@
 from django.db import models
 from users.models import User
+import os
+from uuid import uuid4
+from django.utils import timezone
+
+def upload_filepath(instance, filename):
+    today_str = timezone.now().strftime("%Y%m%d")
+    file_basename = os.path.basename(filename)
+    return f'{instance._meta.model_name}/{today_str}/{str(uuid4())}_{file_basename}'
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
@@ -15,6 +23,8 @@ class Post(models.Model):
     author = models.ForeignKey(to = User, on_delete = models.CASCADE, related_name = "posts")
     category = models.ManyToManyField(to = Category, through = "PostCategory", related_name = "posts")
     like = models.ManyToManyField(to = User, through="Like", related_name="liked_posts")
+    image = models.ImageField(upload_to = upload_filepath, blank = True)
+    video = models.FileField(upload_to = upload_filepath, blank = True)
     
 
     # 제목을 title로 변경하기
@@ -39,4 +49,3 @@ class Comment(models.Model):
 class PostCategory(models.Model):
     category = models.ForeignKey(to = Category, on_delete = models.CASCADE, related_name="categories_postcategory")
     post = models.ForeignKey(to = Post, on_delete = models.CASCADE, related_name="posts_postcategory")
-    
